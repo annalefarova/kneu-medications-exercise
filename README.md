@@ -1,30 +1,60 @@
-# Kneu Health — Backend Engineering Tech Test
+<!-- LOGO -->
+<br />
+<h1>
+<p align="center">
+  <img src="https://assets.kneu.com/images/kneu/logo-secondary-forest-kneu.png" width="200px" height="200px" alt="Logo">
+  <br/>
+  <br>Kneu Health
+</p>
+</h1>
+<p align="center">
+    Backend Engineering Technical Test
+    <br/><br/>
+</p>
 
-## Time Guidance
+This exercise is intended to resemble a small, real-world backend feature at Kneu Health. We’re primarily interested in how you approach the problem rather than how much you complete.
 
-This exercise is designed to take no more than **2 hours**. Please try to stop once you reach the 2-hour mark, even if the solution feels incomplete. We're not expecting a finished or polished solution. We care more about:
+## Overview
 
-- How you structure your code
-- How you think about trade-offs
-- How you explain what you would do next
+Kneu Health is building a medication management platform that allows patients to manage their prescriptions and track when medications should be taken.
 
-If you run out of time, please leave comments or notes describing:
+This repository contains a partially implemented Spring Boot application backed by PostgreSQL. A read-only Medications API is already provided. Your task is to extend the system by building support for prescriptions.
 
-- What you would improve next
-- Any trade-offs you made
-- Anything you intentionally left out
+## Time Expectation
 
-## Context
+⏱ **Approximately 2 hours**
 
-Kneu Health is building a medication management service. The end goal is an app where patients can manage their prescriptions and record when they've taken their medication.
+Please stop once you reach the 2-hour mark, even if your solution feels incomplete.
 
-This starter project includes a PostgreSQL database pre-filled with medications and a read-only medications API backed by Spring Data JPA. Your task is to build a prescriptions API on top of it.
+We are not expecting a production-ready system. Instead, we are interested in:
+
+- How you structure and organise code
+- How you reason about the problem
+- How you make trade-offs and assumptions
+- How you communicate what you would do next
+
+If you do not finish, please leave comments or notes explaining your thinking.
+
+## Technical Stack
+
+- Java 21
+- Spring Boot
+- Spring Data JPA
+- PostgreSQL (via Docker)
+- Maven
 
 ## Getting Started
 
-1. Click **"Use this template"** to create your own copy of this repo
+Click **"Use this template"** to create your own copy of this repository.
 
-**Prerequisites:** [Java 21](https://adoptium.net/temurin/releases/?version=21), [Docker](https://docs.docker.com/get-docker/)
+![use-this-template.png](use-this-template.png)
+
+### Prerequisites
+
+- [Java 21](https://adoptium.net/temurin/releases/?version=21)
+- [Docker](https://docs.docker.com/get-docker/)
+
+### Setup
 
 ```bash
 # Start the PostgreSQL database
@@ -37,50 +67,72 @@ docker compose up -d
 ./mvnw test
 ```
 
-The app starts on **port 8080**. Verify it works:
+The application runs on **port 8080**.
+
+Verify the existing API:
 
 ```bash
 curl http://localhost:8080/medications
 ```
 
-To stop the database:
+### Stopping the Database
 
 ```bash
 docker compose down        # keeps data
 docker compose down -v     # removes data (full reset)
 ```
 
-## What's Provided
+---
 
-- A **PostgreSQL database** (via Docker) with a `medications` table pre-filled with 5 medications
-- A `Medication` JPA entity and a `MedicationRepository` (Spring Data `JpaRepository`)
-- A `GET /medications` endpoint that returns all medications
+## What’s Provided
 
-Feel free to refactor any of the provided code as you see fit.
+The starter project includes:
+
+- A PostgreSQL database with a pre-populated `medications` table
+- A `Medication` JPA entity
+- A Spring Data `MedicationRepository`
+- A working `GET /medications` endpoint
+
+You are free to refactor or adjust any existing code if you believe it improves clarity or quality.
 
 ## Task
 
-Build an API that allows users to manage their prescriptions. A prescription links to a medication and includes a time of day it should be taken (e.g. "08:00"), and optionally a short nickname for easy reference (e.g. "morning heart pill").
+Implement support for **prescriptions**.
 
-Users should be able to:
+A prescription should:
 
-- Create a new prescription
-- View prescriptions
+- Reference an existing medication
+- Include a time of day the medication should be taken (e.g. `08:00`)
+- Optionally include a short, human-readable label or nickname
 
-### Business Rules
+Users should be able to create and view prescriptions.
+
+You may make reasonable assumptions where details are unspecified. Please document them.
+
+## Business Rules
 
 - A prescription must reference a valid medication
+- Invalid input should be handled appropriately
 
-## What We Value
+## What We’re Looking For
 
-- **Separation of concerns** — thoughtful organisation of responsibilities
-- **Good API design** — proper use of HTTP methods, status codes, and request/response handling
-- **Code quality** — clear naming, readability, and organisation
-- **Testing** — meaningful unit and/or integration tests
-- **Error handling** — sensible behaviour for edge cases
+We will be reviewing your solution with attention to:
 
-Feel free to add anything else you think demonstrates good engineering practice.
+- **Code structure and organisation**
+- **API design and correctness**
+- **Clarity and readability**
+- **Error handling**
+- **Testing approach**
+- **Engineering judgement and trade-offs**
+
+We value thoughtful, well-explained decisions over feature completeness.
 
 ## Submission
 
-Please share a link to your repository when you're done. Include any notes about your approach or trade-offs if you'd like.
+Please share a link to your repository when finished.
+
+If you’d like, include a short note describing:
+
+- Your overall approach
+- Any trade-offs or assumptions
+- What you would improve or add with more time
