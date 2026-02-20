@@ -47,7 +47,7 @@ If you do not finish, please leave comments or notes explaining your thinking.
 
 Click **"Use this template"** to create your own copy of this repository.
 
-![use-this-template.png](use-this-template.png)
+<img width="400" height="169" alt="image" src="https://github.com/user-attachments/assets/c757dad7-3a6d-4284-a42d-6a1644ecb847" />
 
 ### Prerequisites
 
