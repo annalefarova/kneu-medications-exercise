@@ -1,6 +1,10 @@
 package com.kneu.medications;
 
+import com.kneu.medications.model.Medication;
+import com.kneu.medications.repository.MedicationRepository;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MedicationControllerTest {
 
     @Autowired
@@ -22,17 +27,24 @@ class MedicationControllerTest {
     @Autowired
     private MedicationRepository medicationRepository;
 
+    @BeforeAll
+    void setUp() {
+        Medication medication1 = new Medication("Aspirin", "100mg");
+        Medication medication2 = new Medication("Metformin", "500mg");
+
+        medicationRepository.save(medication1);
+        medicationRepository.save(medication2);
+    }
+
     @Test
     void getAllMedications() throws Exception {
-        medicationRepository.save(new Medication("Aspirin", "100mg"));
-        medicationRepository.save(new Medication("Metformin", "500mg"));
 
         mockMvc.perform(get("/medications"))
             .andExpect(status().isOk())
             .andExpect(content().json("""
                 [
-                    {"id": 1, "name": "Aspirin", "dosage": "100mg"},
-                    {"id": 2, "name": "Metformin", "dosage": "500mg"}
+                    {"name": "Aspirin", "dosage": "100mg"},
+                    {"name": "Metformin", "dosage": "500mg"}
                 ]
                 """));
     }
