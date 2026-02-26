@@ -2,16 +2,15 @@ package com.kneu.medications.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
 import java.time.LocalTime;
 import java.util.UUID;
 
 @Entity
 @Setter
 @Getter
-@NoArgsConstructor
 public class Prescription {
 
     @Id
@@ -25,5 +24,11 @@ public class Prescription {
 
     @ManyToOne
     Medication medication;
+
+    Instant timestamp;
+
+    public Prescription() {
+        this.timestamp = Instant.now();
+    }
 
 }
