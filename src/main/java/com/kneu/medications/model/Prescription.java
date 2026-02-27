@@ -13,22 +13,20 @@ import java.util.UUID;
 @Getter
 public class Prescription {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    private LocalTime intakeTime;
+  private LocalTime intakeTime;
 
-    @Column(columnDefinition = "text")
-    String label;
+  @Column(columnDefinition = "text")
+  String label;
 
-    @ManyToOne
-    Medication medication;
+  @ManyToOne Medication medication;
 
-    Instant timestamp;
+  Instant timestamp;
 
-    public Prescription() {
-        this.timestamp = Instant.now();
-    }
-
+  public Prescription() {
+    this.timestamp = Instant.now();
+  }
 }

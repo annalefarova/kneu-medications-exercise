@@ -11,15 +11,15 @@ import java.util.List;
 @RestController
 public class MedicationController {
 
-    private final MedicationService medicationService;
+  private final MedicationService medicationService;
 
-    public MedicationController(MedicationService medicationService) {
-        this.medicationService = medicationService;
-    }
+  public MedicationController(MedicationService medicationService) {
+    this.medicationService = medicationService;
+  }
 
-    @GetMapping("/medications")
-    public List<Medication> getAllMedications(@RequestParam(defaultValue = "0") int page,
-                                              @RequestParam(defaultValue = "10") int size) {
-        return medicationService.listMedications(page, size);
-    }
+  @GetMapping("/medications")
+  public List<Medication> getAllMedications(
+      @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    return medicationService.listMedications(page, size);
+  }
 }

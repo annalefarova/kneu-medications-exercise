@@ -11,6 +11,7 @@ import java.util.UUID;
 
 public interface PrescriptionRepository extends JpaRepository<Prescription, UUID> {
 
-    @Query("SELECT new com.kneu.medications.dto.PrescriptionDto(p.id, p.intakeTime, p.label, p.medication.id, p.timestamp) FROM Prescription p")
-    Page<PrescriptionDto> findAllPrescriptionDtos(Pageable pageable);
+  @Query(
+      "SELECT new com.kneu.medications.dto.PrescriptionDto(p.id, p.intakeTime, p.label, p.medication.id, p.timestamp) FROM Prescription p")
+  Page<PrescriptionDto> findAllPrescriptionDtos(Pageable pageable);
 }

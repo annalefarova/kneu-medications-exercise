@@ -22,60 +22,67 @@ import java.util.*;
 
 @Service
 public class PrescriptionService {
-    private static final Logger logger = LoggerFactory.getLogger(PrescriptionService.class);
+  private static final Logger logger = LoggerFactory.getLogger(PrescriptionService.class);
 
-    private final PrescriptionRepository prescriptionRepository;
-    private final MedicationRepository medicationRepository;
-    private final PrescriptionMapper prescriptionMapper;
+  private final PrescriptionRepository prescriptionRepository;
+  private final MedicationRepository medicationRepository;
+  private final PrescriptionMapper prescriptionMapper;
 
-    public PrescriptionService(PrescriptionRepository prescriptionRepository,
-                               MedicationRepository medicationRepository,
-                               PrescriptionMapper mapper) {
-        this.prescriptionRepository = prescriptionRepository;
-        this.medicationRepository = medicationRepository;
-        this.prescriptionMapper = mapper;
+  public PrescriptionService(
+      PrescriptionRepository prescriptionRepository,
+      MedicationRepository medicationRepository,
+      PrescriptionMapper mapper) {
+    this.prescriptionRepository = prescriptionRepository;
+    this.medicationRepository = medicationRepository;
+    this.prescriptionMapper = mapper;
+  }
+
+  public PrescriptionDto createPrescription(CreatePrescriptionRequest request) {
+    Collection<PrescriptionValidationError> validationErrors =
+        PrescriptionValidator.prescriptionValidator(request);
+    if (!CollectionUtils.isEmpty(validationErrors)) {
+      String validationErrorsString =
+          String.join(
+              "; ", validationErrors.stream().map(PrescriptionValidationError::getName).toList());
+      logger.error(
+          "Prescription can not be created because of following validation errors: {}",
+          validationErrorsString);
+      throw new IllegalArgumentException(validationErrorsString);
     }
-
-    public PrescriptionDto createPrescription(CreatePrescriptionRequest request) {
-        Collection<PrescriptionValidationError> validationErrors = PrescriptionValidator.prescriptionValidator(request);
-        if (!CollectionUtils.isEmpty(validationErrors)) {
-            String validationErrorsString = String.join("; ", validationErrors.stream().map(
-                    PrescriptionValidationError::getName).toList());
-            logger.error("Prescription can not be created because of following validation errors: {}", validationErrorsString);
-            throw new IllegalArgumentException(validationErrorsString);
-        }
-        Optional<Medication> medication = Optional.of(medicationRepository.findById(UUID.fromString(request.medicationId()))
+    Optional<Medication> medication =
+        Optional.of(
+            medicationRepository
+                .findById(UUID.fromString(request.medicationId()))
                 .orElseThrow(
-                        () -> new EventProcessingException(
-                                PrescriptionValidationError.MEDICATION_NOT_FOUND.getName(),
-                                HttpStatus.NOT_FOUND.value()
-                        )
-                )
-        );
+                    () ->
+                        new EventProcessingException(
+                            PrescriptionValidationError.MEDICATION_NOT_FOUND.getName(),
+                            HttpStatus.NOT_FOUND.value())));
 
-        Prescription prescription = new Prescription();
-        prescription.setMedication(medication.get());
-        prescription.setIntakeTime(LocalTime.parse(request.intakeTime()));
-        prescription.setLabel(request.label());
+    Prescription prescription = new Prescription();
+    prescription.setMedication(medication.get());
+    prescription.setIntakeTime(LocalTime.parse(request.intakeTime()));
+    prescription.setLabel(request.label());
 
-        prescriptionRepository.save(prescription);
+    prescriptionRepository.save(prescription);
 
-        return prescriptionMapper.toDto(prescription);
-    }
+    return prescriptionMapper.toDto(prescription);
+  }
 
-    public PrescriptionDto getPrescription(UUID prescriptionId) {
-        Prescription prescription = prescriptionRepository.findById(prescriptionId)
-                .orElseThrow(
-                        () -> new EventProcessingException(
-                                PrescriptionValidationError.PRESCRIPTION_NOT_FOUND.getName(),
-                                HttpStatus.NOT_FOUND.value()
-                        )
-                );
-        return prescriptionMapper.toDto(prescription);
-    }
+  public PrescriptionDto getPrescription(UUID prescriptionId) {
+    Prescription prescription =
+        prescriptionRepository
+            .findById(prescriptionId)
+            .orElseThrow(
+                () ->
+                    new EventProcessingException(
+                        PrescriptionValidationError.PRESCRIPTION_NOT_FOUND.getName(),
+                        HttpStatus.NOT_FOUND.value()));
+    return prescriptionMapper.toDto(prescription);
+  }
 
-    public List<PrescriptionDto> listPrescriptions(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return prescriptionRepository.findAllPrescriptionDtos(pageable).getContent();
-    }
+  public List<PrescriptionDto> listPrescriptions(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return prescriptionRepository.findAllPrescriptionDtos(pageable).getContent();
+  }
 }

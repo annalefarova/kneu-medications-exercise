@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public class EventProcessingException extends RuntimeException {
-    private final int statusCode;
+  private final int statusCode;
 
-    public EventProcessingException(String message, int status) {
-        super(message);
-        this.statusCode = status;
-    }
+  public EventProcessingException(String message, int status) {
+    super(message);
+    this.statusCode = status;
+  }
 }

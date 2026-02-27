@@ -12,19 +12,18 @@ import java.util.UUID;
 @Setter
 public class Medication {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    private String name;
+  private String name;
 
-    private String dosage;
+  private String dosage;
 
-    protected Medication() {
-    }
+  protected Medication() {}
 
-    public Medication(String name, String dosage) {
-        this.name = name;
-        this.dosage = dosage;
-    }
+  public Medication(String name, String dosage) {
+    this.name = name;
+    this.dosage = dosage;
+  }
 }

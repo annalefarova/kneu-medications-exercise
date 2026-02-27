@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PrescriptionMapper {
 
-    @Mapping(source = "medication.id", target = "medicationId")
-    PrescriptionDto toDto(Prescription entity);
-
+  @Mapping(source = "medication.id", target = "medicationId")
+  PrescriptionDto toDto(Prescription entity);
 }

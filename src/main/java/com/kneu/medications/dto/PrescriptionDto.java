@@ -7,11 +7,8 @@ import java.time.LocalTime;
 import java.util.UUID;
 
 public record PrescriptionDto(
-        UUID id,
-        @JsonFormat(pattern = "HH:mm")
-        LocalTime intakeTime,
-        String label,
-        UUID medicationId,
-        Instant timestamp
-) {
-}
+    UUID id,
+    @JsonFormat(pattern = "HH:mm") LocalTime intakeTime,
+    String label,
+    UUID medicationId,
+    Instant timestamp) {}

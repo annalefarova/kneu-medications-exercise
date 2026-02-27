@@ -8,18 +8,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
 @Service
 public class MedicationService {
 
-    private final MedicationRepository repository;
+  private final MedicationRepository repository;
 
-    public MedicationService(MedicationRepository repository) {
-        this.repository = repository;
-    }
+  public MedicationService(MedicationRepository repository) {
+    this.repository = repository;
+  }
 
-    public List<Medication> listMedications(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return repository.findAll(pageable).getContent();
-    }
+  public List<Medication> listMedications(int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return repository.findAll(pageable).getContent();
+  }
 }
