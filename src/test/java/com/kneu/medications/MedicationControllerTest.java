@@ -3,11 +3,13 @@ package com.kneu.medications;
 import com.kneu.medications.model.Medication;
 import com.kneu.medications.repository.MedicationRepository;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,13 +21,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class MedicationControllerTest {
 
   @Autowired private MockMvc mockMvc;
 
   @Autowired private MedicationRepository medicationRepository;
 
-  @BeforeAll
+  @BeforeEach
   void setUp() {
     Medication medication1 = new Medication("Aspirin", "100mg");
     Medication medication2 = new Medication("Metformin", "500mg");
