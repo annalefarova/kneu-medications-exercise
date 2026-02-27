@@ -14,6 +14,7 @@ when one was created.
 
 - Extend tests to cover pagination. Create a medications test data as json file and preload repository before testing.
 - Improve tests by removing hardcoded test data, create and load test data from json file instead.
+- Check No static resource metrics exception in logs.
 
 
 #### Possible extensions
