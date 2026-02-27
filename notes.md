@@ -20,7 +20,7 @@ when one was created.
 
 - Currently prescription has only one intake time which would require creating two prescriptions for same medication if 
 this one should be taken twice a day. Prescription model could be extended to have a set of intake times and  
-possibly by start and end date. Set of intake times could be stored as a PostgreSql array instead of `@ElemenCollection`
+possibly start and end date. Set of intake times could be stored as a PostgreSql array instead of `@ElemenCollection`
 to avoid join operations when querying. That would also require changing test setup to use test containers with 
 PostgreSql since specific PostgreSql arrays can not be handled by in memory H2 database.
 
