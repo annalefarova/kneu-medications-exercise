@@ -21,31 +21,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MedicationControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private MedicationRepository medicationRepository;
+  @Autowired private MedicationRepository medicationRepository;
 
-    @BeforeAll
-    void setUp() {
-        Medication medication1 = new Medication("Aspirin", "100mg");
-        Medication medication2 = new Medication("Metformin", "500mg");
+  @BeforeAll
+  void setUp() {
+    Medication medication1 = new Medication("Aspirin", "100mg");
+    Medication medication2 = new Medication("Metformin", "500mg");
 
-        medicationRepository.save(medication1);
-        medicationRepository.save(medication2);
-    }
+    medicationRepository.save(medication1);
+    medicationRepository.save(medication2);
+  }
 
-    @Test
-    void getAllMedications() throws Exception {
+  @Test
+  void getAllMedications() throws Exception {
 
-        mockMvc.perform(get("/medications"))
-            .andExpect(status().isOk())
-            .andExpect(content().json("""
+    mockMvc
+        .perform(get("/medications"))
+        .andExpect(status().isOk())
+        .andExpect(
+            content()
+                .json(
+                    """
                 [
                     {"name": "Aspirin", "dosage": "100mg"},
                     {"name": "Metformin", "dosage": "500mg"}
                 ]
                 """));
-    }
+  }
 }
